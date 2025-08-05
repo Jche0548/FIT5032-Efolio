@@ -12,10 +12,15 @@
       <!-- TODO: CODE TO RENDER LIST OF AUTHORS HERE -->
       
       <ul>
-        <li v-for="author in authors" :key="author.id">
-          {{ author.name }} ({{ author.birthYear }})
-        </li>
-      </ul>
+        <li 
+          v-for="author in authors" 
+          :key="author.id"
+          :class="{ highlight: isHightlighted(author) }"
+          @click="highlightedAuthorId = author.id"
+          >
+            {{ author.name }} ({{ author.birthYear }})
+          </li>
+        </ul>
 
       <h3>Filtering Arrays</h3>
       <!-- Activity 7: Render a list containing authors born after 1850. Hint: Make use of the v-for directive to iterate through the array of authors that you have filtered out. -->
@@ -35,7 +40,7 @@
       </ul>
       <ul>
         <li v-for="work in allFamousWorks" :key="work">
-          {{ work.title }}
+          {{ work }}
         </li>
       </ul>
 
@@ -110,6 +115,7 @@ import authors from '../assets/json/authors.json'
 import bookstores from '../assets/json/bookstores.json'
 // TODO: CODE TO IMPORT JSON FILES HERE
 
+const highlightedAuthorId = ref(null)
 const showMessage = ref(false) // == android mustableStateOf
 
 console.log('Log1', showMessage) 
@@ -125,19 +131,26 @@ const modernAuthors = computed(() => {
 
 // Activity 3: Get all famous works
 const allFamousWorks = computed(() => {
-  return authors.flatMap((author) => author.famousWorks)
   // TODO: CODE TO GET ALL FAMOUS WORKS HERE
+  return authors.flatMap((author) => author.famousWorks.map(work => work.title))
 })
 
 // Activity 4: Find author by name
 const orwell = computed(() => {
   // TODO: CODE TO FIND AUTHOR BY NAME HERE
+  return authors.find(author => author.name === 'George Orwell')
 })
 
 // Activity 5: Find author by ID
 const austen = computed(() => {
   // TODO: CODE TO FIND AUTHOR BY ID HERE
+  return authors.find(author => author.id === 2)
 })
+
+//
+const isHightlighted = (author) => {
+  return author.id === highlightedAuthorId.value
+}
 </script>
 
 <style scoped>
