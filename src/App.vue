@@ -1,39 +1,32 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import JSONLab from './components/JSONLab.vue'
-import MyName from './components/MyName.vue'
-import TheWelcome from './components/TheWelcome.vue'
-import Form from './components/Form.vue'
+import BHeader from './components/BHeader.vue' 
 </script>
 
 <template>
-  <!-- <JSONLab /> -->
+  <div class="main-container">
+    <header>
+      <BHeader />
+    </header>
 
-  <Form />
-
-  <!--
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-      <MyName />
-    </div>
-  </header>
-  -->
-
-  <!--
-  <main>
-    <TheWelcome />
-  </main>
-  -->
+    <main class="main-box">
+      <router-view></router-view>
+    </main>
+  </div>
 </template>
 
 <style scoped>
-header { line-height: 1.5; }
-.logo { display: block; margin: 0 auto 2rem; }
-@media (min-width: 1024px) {
-  header { display: flex; place-items: center; padding-right: calc(var(--section-gap) / 2); }
-  .logo { margin: 0 2rem 0 0; }
-  header .wrapper { display: flex; place-items: flex-start; flex-wrap: wrap; }
+.main-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  border-bottom: 1px solid #ddd;
+}
+
+.main-box {
+  flex: 1;
+  padding: 2rem;
 }
 </style>
