@@ -1,3 +1,4 @@
+import { initializeApp } from "firebase/app";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/main.css'
 
@@ -17,6 +18,24 @@ import Dropdown from 'primevue/dropdown'
 import Checkbox from 'primevue/checkbox'
 import Textarea from 'primevue/textarea'
 import Button from 'primevue/button'
+
+// Import the functions you need from the SDKs you need
+
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyDGfxV6Kc_KHIYLYdsvjlNa1VPLGgXdmrM",
+  authDomain: "week7-juiche.firebaseapp.com",
+  projectId: "week7-juiche",
+  storageBucket: "week7-juiche.firebasestorage.app",
+  messagingSenderId: "65360079953",
+  appId: "1:65360079953:web:78f52868ede3ecbb4b5c70"
+};
+
+// Initialize Firebase
+initializeApp(firebaseConfig);
 
 const app = createApp(App)
 

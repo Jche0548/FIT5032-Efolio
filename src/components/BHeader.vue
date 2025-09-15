@@ -15,6 +15,12 @@
         <li class="nav-item" v-else>
           <button class="nav-link btn btn-link px-3" @click="onLogout">Logout</button>
         </li>
+        <li class="nav-item">
+          <router-link to="/Firelogin" class="nav-link" active-class="active">Firebase Login</router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/Fireregister" class="nav-link" active-class="active">Firebase Register</router-link>
+        </li>
       </ul>
     </header>
   </div>
