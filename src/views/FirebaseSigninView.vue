@@ -13,6 +13,7 @@
   import { ref } from 'vue'
   import { useRouter, useRoute } from 'vue-router'
   import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
+  import { auth as authStore } from '@/stores/auth' 
   
   const router = useRouter()
   const route = useRoute()
@@ -29,9 +30,11 @@
     try {
       const { user } = await signInWithEmailAndPassword(auth, email.value, password.value)
       console.log('[login success]', { uid: user.uid, email: user.email })
-      console.log('[currentUser now]', auth.currentUser?.email)
   
-      const back = (route.query.redirect ?? '/').toString()
+      authStore.isAuthenticated = true
+      authStore.user = { uid: user.uid, email: user.email }
+  
+      const back = (route.query.redirect ?? '/addbook').toString()
       router.replace(back)
     } catch (err) {
       console.error('[login failed]', err.code, err.message)

@@ -3,23 +3,33 @@
     <header class="d-flex justify-content-center py-3 border-bottom">
       <ul class="nav nav-pills">
         <li class="nav-item">
-          <RouterLink to="/" class="nav-link" exact-active-class="active">Home (Week 5)</RouterLink>
+          <RouterLink :to="{ name: 'home' }" class="nav-link">Home (Week 8)</RouterLink>
         </li>
+
         <li class="nav-item">
-          <RouterLink to="/about" class="nav-link" active-class="active">About</RouterLink>
+          <RouterLink :to="{ name: 'about' }" class="nav-link">About</RouterLink>
+        </li>
+
+        <li class="nav-item" v-if="auth.isAuthenticated">
+          <RouterLink :to="{ name: 'addbook' }" class="nav-link">Add Book</RouterLink>
+        </li>
+
+        <li class="nav-item">
+          <RouterLink :to="'/GetBookCount'" class="nav-link" active-class="active">Get Book Count</RouterLink>
         </li>
 
         <li class="nav-item" v-if="!auth.isAuthenticated">
-          <RouterLink to="/login" class="nav-link" active-class="active">Login</RouterLink>
+          <RouterLink :to="{ name: 'login' }" class="nav-link">Login</RouterLink>
         </li>
         <li class="nav-item" v-else>
           <button class="nav-link btn btn-link px-3" @click="onLogout">Logout</button>
         </li>
+
         <li class="nav-item">
-          <router-link to="/Firelogin" class="nav-link" active-class="active">Firebase Login</router-link>
+          <RouterLink :to="{ name: 'firelogin' }" class="nav-link">Firebase Login</RouterLink>
         </li>
         <li class="nav-item">
-          <router-link to="/Fireregister" class="nav-link" active-class="active">Firebase Register</router-link>
+          <RouterLink :to="{ name: 'register' }" class="nav-link">Register</RouterLink>
         </li>
       </ul>
     </header>
@@ -40,7 +50,5 @@ function onLogout() {
 </script>
 
 <style scoped>
-.btn.btn-link.nav-link {
-  text-decoration: none;
-}
+.btn.btn-link.nav-link { text-decoration: none; }
 </style>
