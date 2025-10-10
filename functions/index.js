@@ -1,40 +1,65 @@
 /* eslint-env node */
-// const admin = require('firebase-admin');
 const admin = require('firebase-admin');
 admin.initializeApp();
 
-const functions = require('firebase-functions');
+const { setGlobalOptions } = require('firebase-functions/v2');
+const { onRequest } = require('firebase-functions/v2/https');
+const { onDocumentCreated } = require('firebase-functions/v2/firestore');
+const logger = require('firebase-functions/logger');
+const cors = require('cors')({ origin: true });
 
 const db = admin.firestore();
 
-const cors = require('cors')({ origin: true });
+setGlobalOptions({
+  region: 'australia-southeast1',
+  maxInstances: 10,
+});
 
-exports.countBooks = functions.https.onRequest(async (req, res) => {
+function toUpperAllStringFields(obj = {}) {
+  const out = {};
+  for (const [k, v] of Object.entries(obj)) {
+    out[k] = typeof v === 'string' ? v.toUpperCase() : v;
+  }
+  return out;
+}
 
+exports.capitalizeBookOnCreate = onDocumentCreated('books/{bookId}', async (event) => {
+  const snap = event.data;
+  if (!snap) return;
+
+  const data = snap.data() || {};
+  if (data.normalized === true) return; 
+
+  const upper = toUpperAllStringFields(data);
+  upper.normalized = true;
+  upper.normalizedAt = admin.firestore.FieldValue.serverTimestamp();
+
+  try {
+    await snap.ref.update(upper);
+    logger.info(`Normalized book ${event.params.bookId}`);
+  } catch (err) {
+    logger.error('Failed to normalize book', err);
+  }
+});
+
+exports.countBooks = onRequest({ invoker: 'public' }, async (req, res) => {
   cors(req, res, async () => {
-
     try {
-
-      const booksCollectionRef = db.collection('books');
-
-      const snapshot = await booksCollectionRef.get();
-      
+      const snapshot = await db.collection('books').get();
       const bookCount = snapshot.size;
 
-      functions.logger.info(`Successfully counted books: ${bookCount}`, { structuredData: true });
-      res.status(200).json({ 
+      logger.info(`Successfully counted books: ${bookCount}`);
+      res.status(200).json({
         status: 'success',
         message: 'Book count retrieved successfully.',
-        count: bookCount
+        count: bookCount,
       });
-
     } catch (error) {
-      functions.logger.error('Error counting books from Firestore:', error);
-
-      res.status(500).json({ 
-        status: 'error', 
-        message: 'Failed to count books due to a server error.', 
-        details: error.message 
+      logger.error('Error counting books from Firestore:', error);
+      res.status(500).json({
+        status: 'error',
+        message: 'Failed to count books due to a server error.',
+        details: error.message,
       });
     }
   });

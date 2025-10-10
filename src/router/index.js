@@ -7,6 +7,7 @@ import FirebaseSigninView from '@/views/FirebaseSigninView.vue'
 import FirebaseRegisterView from '@/views/FirebaseRegisterView.vue'
 import GetBookCountView from '@/views/GetBookCountView.vue'
 import AddBookView from '@/views/AddBookView.vue'
+import WeatherView from '@/views/WeatherView.vue'
 import { auth } from '@/stores/auth'
 
 const routes = [
@@ -22,11 +23,14 @@ const routes = [
 
   { path: '/register', name: 'register', component: FirebaseRegisterView },
 
-  { path: '/GetBookCount', name: 'GetBookCount', component: GetBookCountView},
+  { path: '/GetBookCount', name: 'GetBookCount', component: GetBookCountView },
 
   { path: '/denied', name: 'denied', component: AccessDeniedView },
 
+  { path: '/WeatherCheck', name: 'WeatherCheck', component: WeatherView },
+
   { path: '/:pathMatch(.*)*', redirect: '/' }
+
 ]
 
 const router = createRouter({

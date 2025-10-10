@@ -37,7 +37,8 @@
       const back = (route.query.redirect ?? '/addbook').toString()
       router.replace(back)
     } catch (err) {
-      console.error('[login failed]', err.code, err.message)
+      console.log('[login failed]', err.code, err.message);
+      console.log('REST raw:', err?.response?.data?.error?.message);
     }
   }
   </script>

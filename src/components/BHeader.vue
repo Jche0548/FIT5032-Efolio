@@ -18,6 +18,10 @@
           <RouterLink :to="'/GetBookCount'" class="nav-link" active-class="active">Get Book Count</RouterLink>
         </li>
 
+        <li class="nav-item">
+          <RouterLink :to="'/WheatherCheck'" class="nav-link" active-class="active">Get Weather</RouterLink>
+        </li>
+
         <li class="nav-item" v-if="!auth.isAuthenticated">
           <RouterLink :to="{ name: 'login' }" class="nav-link">Login</RouterLink>
         </li>
